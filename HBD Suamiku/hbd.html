@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Surprise Made With Love</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0b0b0b;
+            color: #ffffff;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .bg-glow {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.15) 0%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 1s ease, visibility 1s ease;
+            z-index: 2;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        h1, h2 {
+            font-family: 'Cinzel', serif;
+            color: #d4af37; 
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+        }
+
+        h1 { font-size: 2.5rem; }
+        h2 { font-size: 2rem; }
+
+        p {
+            font-size: 1rem;
+            color: #e0e0e0;
+            max-width: 500px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .italic-text {
+            font-style: italic;
+            color: #bfa15f;
+        }
+
+        .btn {
+            font-family: 'Cinzel', serif;
+            background: transparent;
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 12px 35px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn:hover {
+            background: #d4af37;
+            color: #0b0b0b;
+            box-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .countdown-circle {
+            width: 80px;
+            height: 80px;
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cinzel', serif;
+            font-size: 2rem;
+            color: #d4af37;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+            animation: pulse 1s infinite alternate;
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.05); }
+        }
+
+        .split-container {
+            display: flex;
+            max-width: 800px;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.6);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .split-img {
+            flex: 1;
+            max-height: 450px;
+            object-fit: cover;
+            filter: grayscale(30%) sepia(20%); /* Efek estetik hangat semu hitam putih */
+        }
+
+        .split-text {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+        }
+
+        .split-text p {
+            font-style: italic;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 500px;
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .gallery-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .split-container {
+                flex-direction: column;
+            }
+            .split-img {
+                height: 250px;
+            }
+            .split-text {
+                padding: 25px;
+                text-align: center;
+            }
+            h1 { font-size: 2rem; }
+            h2 { font-size: 1.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-glow"></div>
+
+    <audio id="bg-music" loop>
+        <source src="music.mp3">
+    </audio>
+
+
+    <div class="slide active" id="slide1">
+        <p class="italic-text" style="letter-spacing: 2px; margin-bottom: 5px;">YOU ARE CORDIALLY INVITED</p>
+        <h1>A Little Surprise<br>Made With Love</h1>
+        <button class="btn" onclick="startWeb()">Let It Begin</button>
+    </div>
+
+
+    <div class="slide" id="slide2">
+        <p class="italic-text">Preparing something for you...</p>
+        <div class="countdown-circle" id="countdown">3</div>
+    </div>
+
+
+    <div class="slide" id="slide3">
+        <p class="italic-text" style="letter-spacing: 3px; margin-bottom: 5px;">CELEBRATING</p>
+        <h1 style="font-size: 3.5rem;">Aris Andrian</h1>
+        <p>Everything about you matters. This is for you.</p>
+        <button class="btn" onclick="nextSlide(4)">Continue</button>
+    </div>
+
+
+    <div class="slide" id="slide4">
+        <p class="italic-text" style="letter-spacing: 2px; margin-bottom: 20px;">A MESSAGE JUST FOR YOU</p>
+        <div class="split-container">
+            <img src="foto1.jpeg" alt="Foto Aris Andrian 1" class="split-img" onerror="this.src='https://via.placeholder.com/400x500/222/d4af37?text=Foto+1'">
+            <div class="split-text">
+                <p>"Aku tidak butuh banyak hal untuk merasa bahagia, karena punya kamu saja, itu sudah lebih dari cukup."</p>
+                <button class="btn" onclick="nextSlide(5)">Continue →</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slide" id="slide5">
+        <p class="italic-text" style="letter-spacing: 2px; margin-bottom: 20px;">A MESSAGE JUST FOR YOU</p>
+        <div class="split-container">
+            <img src="foto2.jpeg" alt="Foto Aris Andrian 2" class="split-img" onerror="this.src='https://via.placeholder.com/400x500/222/d4af37?text=Foto+2'">
+            <div class="split-text">
+                <p>"Kamu mungkin tidak selalu sadar, tapi kehadiranmu bikin semuanya terasa lebih ringan. Ada kamu saja, rasanya sudah cukup."</p>
+                <button class="btn" onclick="nextSlide(6)">Continue →</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slide" id="slide6">
+        <p class="italic-text" style="letter-spacing: 2px; margin-bottom: 20px;">A MESSAGE JUST FOR YOU</p>
+        <div class="split-container">
+            <img src="foto3.jpeg" alt="Foto Aris Andrian 3" class="split-img" onerror="this.src='https://via.placeholder.com/400x500/222/d4af37?text=Foto+3'">
+            <div class="split-text">
+                <p>"Di antara semua hal yang terjadi dalam hidupku, kamu adalah bagian yang paling ingin selalu aku jaga. Terima kasih sudah ada, dengan caramu yang sederhana tapi berarti."</p>
+                <button class="btn" onclick="nextSlide(7)">Continue →</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="slide" id="slide7">
+        <p class="italic-text" style="letter-spacing: 3px; margin-bottom: 15px;">ALL ABOUT YOU</p>
+        <div class="gallery-grid">
+            <img src="foto1.jpeg" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/222/d4af37?text=Pic+1'">
+            <img src="foto2.jpeg" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/222/d4af37?text=Pic+2'">
+            <img src="foto3.jpeg" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/222/d4af37?text=Pic+3'">
+            <img src="foto4.jpeg" class="gallery-img" onerror="this.src='https://via.placeholder.com/200/222/d4af37?text=Pic+4'">
+        </div>
+        <button class="btn" onclick="nextSlide(8)">Continue</button>
+    </div>
+
+
+    <div class="slide" id="slide8">
+        <p class="italic-text" style="letter-spacing: 4px; margin-bottom: 5px;">THANK YOU FOR BEING HERE</p>
+        <h1 style="font-size: 3.5rem; margin-bottom: 5px;">Happy Birthday</h1>
+        <span style="color: #e64c3c; font-size: 1.5rem; margin-bottom: 20px;">♥</span>
+        <p>"You deserve all the good things in life."</p>
+        <button class="btn" onclick="restartWeb()">↻ Replay The Night</button>
+    </div>
+
+
+    <script>
+        function nextSlide(slideNumber) {
+            const slides = document.querySelectorAll('.slide');
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            document.getElementById('slide' + slideNumber).classList.add('active');
+        }
+
+        function startWeb() {
+            const music = document.getElementById('bg-music');
+            music.play().catch(error => console.log("Audio play prevented: ", error));
+
+            nextSlide(2);
+
+            let count = 3;
+            const countdownElement = document.getElementById('countdown');
+            
+            const interval = setInterval(() => {
+                count--;
+                if (count > 0) {
+                    countdownElement.innerText = count;
+                } else {
+                    clearInterval(interval);
+                    nextSlide(3);
+                }
+            }, 1000);
+        }
+
+        function restartWeb() {
+            document.getElementById('countdown').innerText = "3";
+            nextSlide(1);
+        }
+    </script>
+</body>
+</html>
